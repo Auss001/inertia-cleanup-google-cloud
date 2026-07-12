@@ -1,132 +1,146 @@
-# Inertia Cleanup
+# Inertia Cleanup - Google Cloud Deployment
 
-Inertia Cleanup is a full-stack, video-first media cleanup application for files you own or have permission to edit. It includes a marketable frontend, a local Node backend, upload/job APIs, and FFmpeg processing.
+## Overview
 
-## Start here
+Inertia Cleanup is a lightweight web application deployed on Google Cloud using a modern containerized architecture.
 
-For local use on this computer, read:
+The project demonstrates the migration of a traditional virtual machine deployment to a fully managed Cloud Run service using Docker, Artifact Registry and Terraform.
 
-```text
-LOCAL-QUICKSTART.md
+---
+
+## Architecture
+
+```
+Developer
+      │
+      ▼
+Docker Build
+      │
+      ▼
+Artifact Registry
+      │
+      ▼
+Terraform
+      │
+      ▼
+Cloud Run
+      │
+      ▼
+Public HTTPS URL
 ```
 
-For putting it online, read:
+---
 
-```text
-DEPLOYMENT.md
+## Initial Deployment
+
+The application was originally deployed on a Google Compute Engine virtual machine.
+
+The VM hosted:
+
+- Docker container
+- Manual deployment
+- Public IP access
+
+Although functional, this required managing the server, operating system, networking and updates.
+
+---
+
+## Migration to Cloud Run
+
+The infrastructure was redesigned to use a serverless deployment model.
+
+The migration included:
+
+- Containerizing the application
+- Publishing images to Artifact Registry
+- Provisioning Cloud Run using Terraform
+- Deploying new application revisions
+- Automatic HTTPS endpoint
+- Automatic scaling
+
+No virtual machines are required after migration.
+
+---
+
+## Technologies Used
+
+- Google Cloud Run
+- Google Artifact Registry
+- Terraform
+- Docker
+- Node.js
+- Git
+- GitHub
+
+---
+
+## Project Structure
+
+```
+.
+├── public/
+├── server/
+├── terraform/
+│   ├── providers.tf
+│   ├── variables.tf
+│   ├── artifact-registry.tf
+│   ├── cloud-run.tf
+│   └── outputs.tf
+├── Dockerfile
+├── package.json
+└── README.md
 ```
 
-For the full project case study, original file map, deployment walkthrough, and LinkedIn post, read:
+---
 
-```text
-PROJECT_CASE_STUDY_README.md
+## Deployment Workflow
+
+```
+Code Changes
+      │
+      ▼
+Docker Build
+      │
+      ▼
+Artifact Registry
+      │
+      ▼
+Terraform Apply
+      │
+      ▼
+Cloud Run Revision
+      │
+      ▼
+Application Live
 ```
 
-For cleaning the project folder and updating the live site to the latest simplified UI, read:
+---
 
-```text
-CLEANUP_AND_UPDATE_LATEST_UI.md
-```
+## Features
 
-For your $10/month Google Compute Engine learning project, read:
 
-```text
-GOOGLE_COMPUTE_ENGINE_10_DOLLAR_GUIDE.md
-```
+- Docker containerization
+- Artifact Registry image storage
+- Terraform-managed infrastructure
+- Cloud Run hosting
+- Public HTTPS access
+- Versioned container deployment
 
-For connecting your domain with Caddy on the Google VM, read:
+---
 
-```text
-CADDY_DOMAIN_SETUP.md
-```
 
-For the separate Cloud Run free-tier demo project, read:
 
-```text
-GOOGLE_CLOUD_FREE_TIER.md
-```
+## Future Improvements
 
-For deploying this app to Cloud Run from Google Cloud Console/Cloud Shell, read:
+Possible next steps for the project include:
 
-```text
-GOOGLE_CLOUD_RUN_CONSOLE_GUIDE.md
-```
-
-For a small Kubernetes learning lab under a $10 budget, read:
-
-```text
-GKE_10_DOLLAR_LEARNING_LAB.md
-```
-
-## What it does
-
-- Upload images and videos.
-- Draw a cleanup region in the browser.
-- Process images and videos on the backend with FFmpeg.
-- Export videos as MP4 while retaining source audio when audio exists.
-- Use high-quality video settings with H.264, `crf` controls, and `+faststart`.
-- Offer four cleanup styles: Cleanse (`delogo`), Blur, Cover, and Ultra Cover.
-
-## Requirements
-
-- Node.js 18 or newer.
-- FFmpeg installed and available on PATH, or set `FFMPEG_PATH` to the full path of `ffmpeg.exe`.
-
-## Windows install
-
-Open PowerShell in this folder and run:
-
-```powershell
-doctor-windows.cmd
-```
-
-If FFmpeg is missing, install it with:
-
-```powershell
-download-ffmpeg.cmd
-```
-
-This downloads a local copy into the project. You can also install FFmpeg system-wide and put it on PATH.
-
-## Run
-
-```powershell
-start-local.cmd
-```
-
-Open:
-
-```text
-http://localhost:4173
-```
-
-## API
-
-Create a job:
-
-```http
-POST /api/jobs
-Content-Type: multipart/form-data
-```
-
-Fields:
-
-- `file`: media file.
-- `region`: JSON with `x`, `y`, `width`, `height`.
-- `options`: JSON with `mode`, `crf`, `strength`, and `color`.
-
-Poll:
-
-```http
-GET /api/jobs/:id
-```
-
-Download:
-
-```http
-GET /download/:id
-```
-
-## Production notes
-
-For a commercial deployment, put this Node app behind a reverse proxy, add authentication, persist jobs in a database, move uploads to object storage, add payment handling, and run FFmpeg jobs in a queue worker.
+- Add a custom domain
+- Configure GitHub Actions for automated deployment
+- Add authentication for restricted access
+- Store processed files in Cloud Storage
+- Add monitoring and alerting
+- Add application usage metrics
+- Improve the media-processing workflow
+- Support larger file uploads
+- Add more cleanup and editing options
+- Add a production-ready favicon and branding
