@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inertia Cleanup</title>
+    <link rel="stylesheet" href="./styles.css?v=7" />
+  </head>
+  <body>
+    <main class="app">
+      <div id="fileWarning" class="file-warning" hidden>
+        <strong>Open through the server.</strong>
+        <span>Run <code>start-local.cmd</code>, then open <code>http://localhost:4173</code>.</span>
+      </div>
+
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">IC</span>
+          <div>
+            <strong>Inertia Cleanup</strong>
+            <small id="serverStatus">Checking server...</small>
+          </div>
+        </div>
+        <span id="jobBadge" class="badge badge-ready"><span class="badge-dot"></span><span id="jobBadgeText">Ready</span></span>
+      </header>
+
+      <section class="workspace" aria-label="Media cleanup workspace">
+        <section class="player">
+          <div class="player-head">
+            <div>
+              <span class="label">Media Player</span>
+              <h1 id="fileName">No file selected</h1>
+            </div>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="canvas" width="1280" height="720"></canvas>
+            <div id="empty" class="empty">
+              <strong>Upload media</strong>
+              <span>Then drag over the area to clean.</span>
+            </div>
+          </div>
+
+          <video id="video" class="native-player" controls playsinline hidden></video>
+          <img id="image" alt="" hidden />
+
+          <div class="progress-area" aria-live="polite">
+            <div class="progress-head">
+              <span id="progressStage">Ready</span>
+              <strong id="progressPercent">0%</strong>
+            </div>
+            <div class="progress" aria-label="Processing progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span id="progress"></span>
+            </div>
+            <div id="processSteps" class="process-steps" hidden>
+              <span data-step="uploading">Upload</span>
+              <span data-step="analyzing">Analyze</span>
+              <span data-step="processing">Process</span>
+              <span data-step="finalizing">Finalize</span>
+            </div>
+          </div>
+
+          <p id="helper" class="helper">Ready. Upload a file to begin.</p>
+        </section>
+
+        <aside class="controls" aria-label="Cleanup controls">
+          <label class="upload-button" for="fileInput">
+            <input id="fileInput" type="file" accept="image/*,video/*" />
+            <span>Upload</span>
+          </label>
+
+          <button id="processButton" class="action primary" disabled>Process</button>
+          <a id="download" class="action secondary" hidden>Download</a>
+
+          <div class="mode-group" aria-label="Cleanup mode">
+            <label><input type="radio" name="mode" value="delogo" checked /><span>Cleanse</span></label>
+            <label><input type="radio" name="mode" value="blur" /><span>Blur</span></label>
+            <label><input type="radio" name="mode" value="cover" /><span>Cover</span></label>
+            <label><input type="radio" name="mode" value="ultra-cover" /><span>Ultra Cover</span></label>
+          </div>
+
+          <label class="field color-field">
+            <span>Cover color</span>
+            <input id="color" type="color" value="#101820" />
+          </label>
+
+          <details class="advanced">
+            <summary>Options</summary>
+            <label class="field">
+              <span>Video quality</span>
+              <input id="crf" type="range" min="10" max="28" value="16" />
+            </label>
+            <label class="field">
+              <span>Blur strength</span>
+              <input id="strength" type="range" min="2" max="40" value="14" />
+            </label>
+          </details>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./app.js?v=7"></script>
+  </body>
+</html>

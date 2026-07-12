@@ -1,0 +1,14 @@
+{
+  "name": "inertia-cleanup",
+  "version": "1.0.0",
+  "description": "Full-stack authorized media cleanup app for images and videos with FFmpeg-backed audio-preserving exports.",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "check": "node server/server.js --check",
+    "self-test": "node server/self-test.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
